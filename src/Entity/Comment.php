@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -20,33 +21,38 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $author;
+    private ?string $author;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private ?\DateTimeInterface $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Conference::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $conference;
+    private ?Conference $conference;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $photoFilename;
+    private ?string $photoFilename;
+
+    #[Pure] public function __toString(): string
+    {
+        return (string) $this->getEmail();
+    }
 
     public function getId(): ?int
     {
