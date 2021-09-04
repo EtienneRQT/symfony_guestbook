@@ -8,6 +8,7 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -130,4 +131,13 @@ class Comment
 
         return $this;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
 }
